@@ -1,3 +1,3 @@
-module github.com/vricap/AdventOfCode/2015
+module github.com/vricap/AdventOfCode
 
 go 1.21.5
