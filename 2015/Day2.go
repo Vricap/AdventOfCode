@@ -6,6 +6,79 @@ import (
 	"strings"
 )
 
+func toArr(str []string) [][]int {
+	arr := make([][]int, 0)
+	for _, x := range str {
+		y := strings.Split(strings.TrimSpace(x), "x")
+		
+		var w []int
+		for _, r := range y {
+			num,_ := strconv.Atoi(r)
+			w = append(w, num)
+		}
+		arr = append(arr, w)
+	}
+	return arr
+}
+
+func calc1(arr[][]int) int {
+	total := 0
+	firstSide := 0
+	secondtSide := 0
+	thirdtSide := 0
+	for _, val := range arr {
+		firstSide = val[0] * val[1]
+		secondtSide = val[1] * val[2]
+		thirdtSide = val[2] * val[0]
+		
+		if firstSide <= secondtSide && firstSide <= thirdtSide {
+			total += (firstSide * 2) + (secondtSide * 2) + (thirdtSide * 2) + firstSide
+			continue
+		} else if secondtSide <= firstSide && secondtSide <= thirdtSide {
+			total += (firstSide * 2) + (secondtSide * 2) + (thirdtSide * 2) + secondtSide
+			continue
+		} else if thirdtSide <= firstSide && thirdtSide <= secondtSide {
+			total += (firstSide * 2) + (secondtSide * 2) + (thirdtSide * 2) + thirdtSide
+			continue
+		}
+	}
+
+	return total
+}
+
+func calc2(arr [][]int) int {
+	total := 0
+	
+	for _, val := range arr {
+
+		smol := 0
+		smol2 := 0
+
+		for i, _ := range val {
+			if val[smol] > val[i] {
+				smol = i
+			}
+		}
+
+		param := make([]int, 0)
+		for i, _ := range val {
+			if i != smol {
+				param = append(param, i)
+			}
+		}
+
+		if val[param[0]] <= val[param[1]]{
+			smol2 = param[0]
+			} else {
+				smol2 = param[1]
+			}
+
+		total += (val[0] * val[1] * val[2]) + ((val[smol] * 2) + (val[smol2] * 2))
+		// fmt.Println(val[smol], val[smol2])
+	}
+	return total
+}
+
 func main()  {
 	str := strings.Split(`20x3x11
 	15x27x5
@@ -1014,77 +1087,4 @@ func main()  {
 
 	value2 := calc2(arr) 
 	fmt.Println(value2)
-}
-
-func toArr(str []string) [][]int {
-	arr := make([][]int, 0)
-	for _, x := range str {
-		y := strings.Split(strings.TrimSpace(x), "x")
-		
-		var w []int
-		for _, r := range y {
-			num,_ := strconv.Atoi(r)
-			w = append(w, num)
-		}
-		arr = append(arr, w)
-	}
-	return arr
-}
-
-func calc1(arr[][]int) int {
-	total := 0
-	firstSide := 0
-	secondtSide := 0
-	thirdtSide := 0
-	for _, val := range arr {
-		firstSide = val[0] * val[1]
-		secondtSide = val[1] * val[2]
-		thirdtSide = val[2] * val[0]
-		
-		if firstSide <= secondtSide && firstSide <= thirdtSide {
-			total += (firstSide * 2) + (secondtSide * 2) + (thirdtSide * 2) + firstSide
-			continue
-		} else if secondtSide <= firstSide && secondtSide <= thirdtSide {
-			total += (firstSide * 2) + (secondtSide * 2) + (thirdtSide * 2) + secondtSide
-			continue
-		} else if thirdtSide <= firstSide && thirdtSide <= secondtSide {
-			total += (firstSide * 2) + (secondtSide * 2) + (thirdtSide * 2) + thirdtSide
-			continue
-		}
-	}
-
-	return total
-}
-
-func calc2(arr [][]int) int {
-	total := 0
-	
-	for _, val := range arr {
-
-		smol := 0
-		smol2 := 0
-
-		for i, _ := range val {
-			if val[smol] > val[i] {
-				smol = i
-			}
-		}
-
-		param := make([]int, 0)
-		for i, _ := range val {
-			if i != smol {
-				param = append(param, i)
-			}
-		}
-
-		if val[param[0]] <= val[param[1]]{
-			smol2 = param[0]
-			} else {
-				smol2 = param[1]
-			}
-
-		total += (val[0] * val[1] * val[2]) + ((val[smol] * 2) + (val[smol2] * 2))
-		// fmt.Println(val[smol], val[smol2])
-	}
-	return total
 }
